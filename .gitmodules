@@ -1,0 +1,3 @@
+[submodule "DSVL"]
+	path = DSVL
+	url = https://github.com/CPonty/DSVL.git
