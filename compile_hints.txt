@@ -1,0 +1,80 @@
+REACTIVISION
+
+should compile out-of-the-box, may need to resolve 1-2 compile problems with some easy googling.
+ 
+I had to change some options & download libraries to get it to build, but it didn't take too long and you may not have the same problems.
+
+If you have link issues, see if you can link to the BaseClasses folder before trying to build/download SDKs/libraries.
+
+Last build was on Windows Vista
+
+-------------------------------------------------------------------------------
+
+
+DSVL
+ - important project properties are specified below.
+   make sure the paths point to actual locations (don't worry about DirectX paths).
+   make sure the windows environment variables exist.
+ - directshow video library is reliant on the Windows SDK
+ - v7.1 (the utilised version) can be downloaded here: http://www.microsoft.com/en-us/download/details.aspx?id=8279
+ - there are IMedia samples which need to be built in the library
+ - there is a header file DSVL depends on but which has been depreciated since Windows SDK 6.1: see http://social.msdn.microsoft.com/Forums/en-US/windowsdirectshowdevelopment/thread/2ab5c212-5824-419d-b5d9-7f5db82f57cd for solutions
+ - the existing dsvl.dll, dsvl.lib and dsvl.h files in ReacTIVision-src/win32 need to be written over if DSVL is changed
+
+
+-------------------------------------------------------------------------------
+WINDOWS ENVIRONMENT VARIABLES
+
+VSInstallDir
+C:\Program Files\Microsoft Visual Studio 10.0
+
+WindowsSDKDir
+C:\Program Files\Microsoft SDKs\Windows\v7.1
+
+-------------------------------------------------------------------------------
+DEBUG
+
+Linker -> general -> additional library directories
+[new]
+..\Samples\multimedia\directshow\common;..\Samples\multimedia\directshow\baseclasses;$(ProjectDir)..\lib;%(AdditionalLibraryDirectories)
+
+[old]
+C:\Program Files\Microsoft SDKs\Windows\v7.1\Samples\multimedia\directshow\common;C:\Program Files\Microsoft SDKs\Windows\v7.1\Samples\multimedia\directshow\baseclasses;C:\Program Files\Microsoft SDKs\Windows\v7.1\Samples\multimedia\directshow\baseclasses\Debug;$(ProjectDir)..\lib;%(AdditionalLibraryDirectories)
+
+C/C++ Additional Include Dirs
+[new]
+$(ProjectDir)..\src;($DXSDK_DIR)include;($DXSDK_DIR)Extras\DirectShow\Samples\C++\DirectShow\Common;($DXSDK_DIR)Extras\DirectShow\Samples\C++\DirectShow\BaseClasses;$(ProjectDir)..\extlib\tinyxml;%(AdditionalIncludeDirectories)
+
+[old]
+$(ProjectDir)..\src;C:\Program Files\Microsoft SDKs\Windows\v7.1\Samples\multimedia\directshow\common;C:\Program Files\Microsoft SDKs\Windows\v7.1\Samples\multimedia\directshow\baseclasses;C:\Program Files\Microsoft SDKs\Windows\v7.1\include;$(ProjectDir)..\extlib\tinyxml;%(AdditionalIncludeDirectories)
+
+Linker -> Input -> Additional Dependencies
+[old]
+strmbasd.lib;comsupp.lib;Quartz.lib;winmm.lib;tinyxmld_STL.lib;%(AdditionalDependencies)
+
+[new]
+strmbasd.lib;comsuppwd.lib;Quartz.lib;winmm.lib;tinyxmld_STL.lib;%(AdditionalDependencies)
+
+-------------------------------------------------------------------------------
+RELEASE
+
+C/C++ -> General -> Additional Include Dirs
+[old]
+$(ProjectDir)/../src;($DXSDK_DIR)include;($DXSDK_DIR)Extras\DirectShow\Samples\C++\DirectShow\Common;($DXSDK_DIR)Extras\DirectShow\Samples\C++\DirectShow\BaseClasses;$(ProjectDir)/../extlib/tinyxml;%(AdditionalIncludeDirectories)
+
+[new]
+$(ProjectDir)/../src;C:\Program Files\Microsoft SDKs\Windows\v7.1\Samples\multimedia\directshow\common;C:\Program Files\Microsoft SDKs\Windows\v7.1\Samples\multimedia\directshow\baseclasses;C:\Program Files\Microsoft SDKs\Windows\v7.1\include;$(ProjectDir)/../extlib/tinyxml;%(AdditionalIncludeDirectories)
+
+Linker -> General -> Additional Library Dirs
+[old]
+..\Samples\Multimedia\DirectShow\Common;..\Samples\Multimedia\DirectShow\BaseClasses;$(ProjectDir)..\lib;%(AdditionalLibraryDirectories)
+
+[new]
+C:\Program Files\Microsoft SDKs\Windows\v7.1\Samples\multimedia\directshow\common;C:\Program Files\Microsoft SDKs\Windows\v7.1\Samples\multimedia\directshow\baseclasses;C:\Program Files\Microsoft SDKs\Windows\v7.1\Samples\multimedia\directshow\baseclasses\Release;$(ProjectDir)..\lib;%(AdditionalLibraryDirectories)
+
+Linker -> Input -> Additional Dependencies
+[old]
+strmiids.lib;winmm.lib;strmbase.lib;comsupp.lib;Quartz.lib;tinyxml_STL.lib;%(AdditionalDependencies)
+
+[new]
+strmiids.lib;winmm.lib;strmbase.lib;comsuppw.lib;Quartz.lib;tinyxml_STL.lib;%(AdditionalDependencies)
